@@ -1,8 +1,10 @@
 'use client';
 
+import { SignOutButton } from '@/components/app/sign-out-button';
+
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Settings, LogOut, PanelLeftClose } from 'lucide-react';
+import { Settings, PanelLeftClose } from 'lucide-react';
 import { type Product, firstItem } from '@/config/nav';
 import { useIconHover } from '@animateicons/react';
 import { AnimatedIcon } from '@/components/ui/animated-icon';
@@ -92,13 +94,7 @@ export function SecondaryNav({
           >
             <Settings className="size-4" />
           </Link>
-          <Link
-            href="/login"
-            aria-label="Sign out"
-            className="grid size-8 place-items-center rounded-lg text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
-          >
-            <LogOut className="size-4" />
-          </Link>
+          <SignOutButton className="grid size-11 place-items-center rounded-lg text-muted-foreground hover:bg-accent" />
         </div>
         <button
           type="button"

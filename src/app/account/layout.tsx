@@ -1,12 +1,15 @@
 'use client';
 
+import { SignOutButton } from '@/components/app/sign-out-button';
+
 import { useState } from 'react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
-import { LayoutGrid, LogOut, Menu } from 'lucide-react';
+import { LayoutGrid, Menu } from 'lucide-react';
 import { Logo } from '@/components/brand/logo';
 import { AccountSidebar } from '@/components/account/account-sidebar';
 import { UserMenu } from '@/components/app/user-menu';
+import { MobileDrawer } from '@/components/app/mobile-drawer';
 
 export default function AccountLayout({
   children,
@@ -25,7 +28,7 @@ export default function AccountLayout({
 
   return (
     <div className="flex h-dvh w-full flex-col overflow-hidden">
-      <header className="flex h-14 shrink-0 items-center justify-between border-b bg-background px-4">
+      <header className="app-topbar flex min-h-14 shrink-0 items-center justify-between border-b bg-background px-4">
         <div className="flex items-center gap-2">
           <button
             type="button"
@@ -49,13 +52,7 @@ export default function AccountLayout({
           >
             <LayoutGrid className="size-5" />
           </Link>
-          <Link
-            href="/login"
-            aria-label="Sign out"
-            className="grid size-9 place-items-center rounded-full text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
-          >
-            <LogOut className="size-5" />
-          </Link>
+          <SignOutButton className="grid size-11 place-items-center rounded-full text-muted-foreground hover:bg-accent" />
           <UserMenu name="Saudara" />
         </div>
       </header>
@@ -65,22 +62,12 @@ export default function AccountLayout({
         <div className="hidden shrink-0 md:flex">
           <AccountSidebar />
         </div>
-        <main className="flex-1 overflow-auto bg-muted/30">{children}</main>
+        <main className="app-scroll min-w-0 flex-1 overflow-y-auto overflow-x-hidden bg-muted/30">{children}</main>
       </div>
 
-      {/* Sidebar — off-canvas drawer below md */}
-      {navOpen ? (
-        <div className="fixed inset-0 z-50 md:hidden">
-          <div
-            className="absolute inset-0 bg-black/40"
-            onClick={() => setNavOpen(false)}
-            aria-hidden
-          />
-          <div className="absolute inset-y-0 left-0 shadow-xl">
-            <AccountSidebar />
-          </div>
-        </div>
-      ) : null}
+      <MobileDrawer open={navOpen} onOpenChange={setNavOpen} title="Account navigation">
+        <AccountSidebar />
+      </MobileDrawer>
     </div>
   );
 }

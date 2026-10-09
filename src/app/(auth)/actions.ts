@@ -5,6 +5,7 @@ import { redirect } from 'next/navigation';
 import { z } from 'zod';
 import { createClient } from '@/lib/supabase/server';
 import { REMEMBER_COOKIE } from '@/lib/supabase/remember';
+import { createNeonWorkspace } from '@/lib/db/neon';
 
 // Persist the "remember me" choice so token refreshes (in the proxy) keep the
 // same cookie lifetime. A session cookie itself clears on browser close.
@@ -119,9 +120,13 @@ export async function signUpAction(
     }
   }
 
-  const { error: orgErr } = await supabase.rpc('create_org_for_current_user', {
-    org_name: parsed.data.orgName,
-  });
+  let orgErr: unknown;
+  if (process.env.DATABASE_URL) {
+    try { await createNeonWorkspace(supabase, parsed.data.orgName); } catch (error) { orgErr = error; }
+  } else {
+    const result = await supabase.rpc('create_org_for_current_user', { org_name: parsed.data.orgName });
+    orgErr = result.error;
+  }
   if (orgErr) {
     return { error: 'Could not create your workspace. Please try again.', values };
   }
@@ -137,7 +142,13 @@ export async function demoSignInAction(): Promise<AuthState> {
   const supabase = await createClient({ remember: true });
   const { error: anonErr } = await supabase.auth.signInAnonymously();
   if (anonErr) return { error: 'Demo is unavailable right now.' };
-  const { error: joinErr } = await supabase.rpc('join_demo_org');
+  let joinErr: unknown;
+  if (process.env.DATABASE_URL) {
+    try { await createNeonWorkspace(supabase, 'Demo workspace', true); } catch (error) { joinErr = error; }
+  } else {
+    const result = await supabase.rpc('join_demo_org');
+    joinErr = result.error;
+  }
   if (joinErr) {
     await supabase.auth.signOut();
     return { error: 'Demo is unavailable right now.' };
@@ -202,4 +213,14 @@ export async function updatePasswordAction(
     return { error: 'Could not update your password. Please try again.' };
   }
   redirect('/command');
+}
+
+export async function signOutAction() {
+  if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+    const client = await createClient();
+    await client.auth.signOut();
+  }
+  const store = await cookies();
+  store.delete(REMEMBER_COOKIE);
+  redirect('/login');
 }

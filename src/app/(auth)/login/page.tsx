@@ -10,6 +10,8 @@ export const metadata: Metadata = {
 };
 
 const NOTICES: Record<string, string> = {
+  sign_in_required: 'Please sign in to open your workspace.',
+  setup_required: 'Sign-in is being set up. Please try again later.',
   reset_expired: 'Your reset link has expired. Request a new one below.',
   link_invalid: 'That link is invalid or has already been used.',
 };

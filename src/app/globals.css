@@ -155,3 +155,25 @@
     animation: none;
   }
 }
+
+/* Touch layouts keep tables scrollable within their cards and reserve the
+ * home indicator / notch areas when installed as a standalone application. */
+html { -webkit-text-size-adjust: 100%; touch-action: pan-x pan-y; }
+body { overflow-x: hidden; }
+.app-topbar { padding-top: env(safe-area-inset-top, 0px); }
+.app-scroll { overscroll-behavior-y: contain; }
+.mobile-bottom-nav {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  padding-left: env(safe-area-inset-left, 0px);
+  padding-right: env(safe-area-inset-right, 0px);
+}
+.mobile-drawer { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+.assistant-fab { bottom: calc(4.5rem + env(safe-area-inset-bottom, 0px)); }
+.assistant-panel { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+@media (max-width: 767px) {
+  input, textarea, select { font-size: 16px !important; }
+  button, a { touch-action: pan-x pan-y; }
+  [data-slot="card"] { min-width: 0; }
+  .app-scroll { padding-left: env(safe-area-inset-left, 0px); padding-right: env(safe-area-inset-right, 0px); }
+}
+@media (min-width: 768px) { .assistant-fab { bottom: 1.25rem; } }

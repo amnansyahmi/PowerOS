@@ -135,7 +135,7 @@ export function SariConversation({
   const suggestions = compact ? SUGGESTIONS.slice(0, 4) : SUGGESTIONS;
 
   return (
-    <div className="flex h-full">
+    <div className="flex min-h-0 h-full">
       {showSidebar ? (
         <aside className="hidden w-72 shrink-0 flex-col border-r bg-sidebar lg:flex">
           <div className="p-3">
@@ -191,7 +191,7 @@ export function SariConversation({
                 <h1
                   className={cn(
                     'font-bold tracking-tight',
-                    compact ? 'text-xl' : 'text-3xl',
+                    compact ? 'text-xl' : 'text-2xl sm:text-3xl',
                   )}
                 >
                   How can I help, Saudara?
@@ -256,7 +256,7 @@ export function SariConversation({
                 {messages.map((m) =>
                   m.role === 'user' ? (
                     <div key={m.id} className="flex justify-end">
-                      <div className="max-w-[80%] rounded-2xl rounded-br-md bg-primary px-4 py-2.5 text-sm text-primary-foreground">
+                      <div className="break-words max-w-[80%] rounded-2xl rounded-br-md bg-primary px-4 py-2.5 text-sm text-primary-foreground">
                         {m.text}
                       </div>
                     </div>
@@ -344,7 +344,7 @@ function Composer({
         }}
         rows={1}
         placeholder="Ask anything…"
-        className="max-h-40 flex-1 resize-none bg-transparent px-1 py-2 text-sm outline-none placeholder:text-muted-foreground"
+        className="min-w-0 max-h-40 flex-1 resize-none bg-transparent px-1 py-2 text-sm outline-none placeholder:text-muted-foreground"
       />
       <button
         type="button"

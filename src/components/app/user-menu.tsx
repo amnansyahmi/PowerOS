@@ -1,5 +1,8 @@
 'use client';
 
+import { InstallApp } from '@/components/pwa/install-app';
+import { SignOutButton } from '@/components/app/sign-out-button';
+
 import Link from 'next/link';
 import { ChevronDown } from 'lucide-react';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
@@ -25,7 +28,7 @@ const ITEMS = [
 export function UserMenu({ name = 'Saudara' }: { name?: string }) {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="flex items-center gap-2 rounded-full border bg-background py-1 pl-1 pr-2.5 text-sm font-medium transition-colors hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+      <DropdownMenuTrigger aria-label="Open account menu" className="flex items-center gap-2 rounded-full border bg-background py-1 pl-1 pr-2.5 text-sm font-medium transition-colors hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
         <Avatar className="size-7">
           <AvatarFallback className="bg-primary text-primary-foreground text-xs font-semibold">
             {name[0]}
@@ -57,6 +60,7 @@ export function UserMenu({ name = 'Saudara' }: { name?: string }) {
         <DropdownMenuSeparator className="my-0" />
 
         <div className="py-1">
+          <InstallApp />
           {ITEMS.map((item) => (
             <DropdownMenuItem key={item.label} asChild className="px-3 py-2">
               <Link href={item.href}>{item.label}</Link>
@@ -67,9 +71,7 @@ export function UserMenu({ name = 'Saudara' }: { name?: string }) {
         <DropdownMenuSeparator className="my-0" />
 
         <div className="flex items-center justify-between px-3 py-2.5 text-sm font-medium">
-          <Link href="/login" className="text-primary hover:underline">
-            Sign out
-          </Link>
+          <SignOutButton className="grid size-11 place-items-center rounded-lg text-primary hover:bg-accent" />
           <Link
             href="/privacy"
             className="text-muted-foreground hover:text-foreground hover:underline"

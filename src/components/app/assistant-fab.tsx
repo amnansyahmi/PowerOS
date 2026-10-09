@@ -27,7 +27,7 @@ export function AssistantFab() {
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className="fixed bottom-5 right-5 z-30 inline-flex items-center gap-2 rounded-full bg-primary px-4 py-3 text-sm font-semibold text-primary-foreground shadow-lg transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+          className="assistant-fab fixed right-4 z-30 inline-flex items-center gap-2 rounded-full bg-primary px-4 py-3 text-sm font-semibold text-primary-foreground shadow-lg transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
           aria-label={`Ask ${ASSISTANT.name}`}
         >
           <Sparkles className="size-4" />
@@ -45,7 +45,7 @@ export function AssistantFab() {
           <div
             role="dialog"
             aria-label={`${ASSISTANT.name} assistant`}
-            className="absolute inset-y-0 right-0 flex w-full max-w-md flex-col border-l bg-background shadow-2xl"
+            className="assistant-panel absolute inset-y-0 right-0 flex w-full max-w-md flex-col border-l bg-background shadow-2xl"
           >
             <div className="flex h-14 shrink-0 items-center justify-between border-b px-4">
               <div className="flex items-center gap-2.5">

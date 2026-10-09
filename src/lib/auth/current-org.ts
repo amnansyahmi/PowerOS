@@ -10,6 +10,11 @@ export async function getCurrentOrg(client: SupabaseClient): Promise<CurrentOrg 
   } = await client.auth.getUser();
   if (!user) return null;
 
+  if (process.env.DATABASE_URL) {
+    const { getNeonOrg } = await import('@/lib/db/neon');
+    return getNeonOrg(user.id);
+  }
+
   // RLS lets a member read every row of their org, so scope to the caller.
   const { data, error } = await client
     .from('org_members')

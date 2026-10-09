@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation';
 import { type NextRequest } from 'next/server';
 import type { EmailOtpType } from '@supabase/supabase-js';
 import { createClient } from '@/lib/supabase/server';
+import { safeRedirectPath } from '@/lib/auth/redirect-path';
 
 const VALID_TYPES: EmailOtpType[] = [
   'signup',
@@ -13,11 +14,6 @@ const VALID_TYPES: EmailOtpType[] = [
 ];
 
 // Only allow same-origin relative paths as the post-verification destination.
-function safeNext(next: string | null): string {
-  if (next && next.startsWith('/') && !next.startsWith('//')) return next;
-  return '/command';
-}
-
 /**
  * Verifies an email auth link (recovery, signup confirmation, magic link, …)
  * and establishes a session, then forwards the user on. Handles both the
@@ -31,7 +27,7 @@ export async function GET(request: NextRequest) {
   const tokenHash = searchParams.get('token_hash');
   const type = searchParams.get('type') as EmailOtpType | null;
   const code = searchParams.get('code');
-  const next = safeNext(searchParams.get('next'));
+  const next = safeRedirectPath(searchParams.get('next'));
 
   const supabase = await createClient();
 

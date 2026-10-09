@@ -1,7 +1,9 @@
 'use client';
 
+import { SignOutButton } from '@/components/app/sign-out-button';
+
 import Link from 'next/link';
-import { Settings, LogOut, type LucideIcon } from 'lucide-react';
+import { Settings, type LucideIcon } from 'lucide-react';
 import { PRODUCTS, productHref } from '@/config/nav';
 import { Logo } from '@/components/brand/logo';
 import {
@@ -85,7 +87,7 @@ export function ProductRail({ activeKey }: { activeKey: string | null }) {
           icon={Settings}
           active={activeKey === 'account'}
         />
-        <RailLink href="/login" label="Sign out" icon={LogOut} />
+        <SignOutButton className="grid size-10 place-items-center rounded-xl text-muted-foreground hover:bg-accent" />
       </div>
     </aside>
   );
